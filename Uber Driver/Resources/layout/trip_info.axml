@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:paddingTop="15dp"
+	android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+    
+	<RelativeLayout
+		android:layout_height="0dp"
+		android:layout_weight="0.5"
+        android:paddingLeft="10dp"
+        android:gravity="center"
+	    android:paddingRight="10dp"
+		android:layout_width="match_parent">
+
+		<TextView
+			android:id="@+id/date"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:gravity="center"
+			android:text="2020 May 25"
+			android:textStyle="bold"
+			android:textSize="18sp"
+		/>
+
+		
+
+		<TextView
+			android:id="@+id/time"
+			android:text="11:55 PM"
+			android:layout_height="wrap_content"
+            android:gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+		/>
+		</RelativeLayout>
+    <View
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberDarkAsh" />
+    <LinearLayout
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:tint="@color/uberGreen"
+            android:src="@drawable/ic_location"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.8">
+            <TextView
+                android:id="@+id/newridePickupText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="From : op Expressway Stop Expressway  Stop Expressway 1, Lagos"
+                android:layout_centerVertical="true"
+                android:maxLines="4" />
+        </RelativeLayout>
+    </LinearLayout>
+	<LinearLayout
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:tint="@color/uberRed"
+            android:src="@drawable/ic_location"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.8">
+            <TextView
+                android:id="@+id/newrideDestinationText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="To : Peninsula Resort Victoria Island Lekki,  Peninsula Resort Victoria Island Lekki, Lagos"
+                android:layout_centerVertical="true"
+                android:maxLines="2" />
+        </RelativeLayout>
+    </LinearLayout>
+    
+
+
+      <View
+        android:layout_height="1dp"
+         android:layout_marginLeft="30dp"
+	    android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+    
+    <RelativeLayout
+		android:layout_height="0dp"
+		android:layout_width="match_parent"
+        android:paddingLeft="30dp"
+	    android:paddingRight="30dp"
+		android:layout_weight="0.5">
+
+		<TextView
+			android:id="@+id/statusText"
+			android:text="Status:"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginBottom="10dp"
+		/>
+
+			<TextView
+			android:id="@+id/status"
+			android:text="Graduated"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginBottom="10dp"
+			android:layout_toRightOf="@+id/statusText"
+			android:layout_marginLeft="4dp"
+			android:textStyle="bold"
+		/>
+        <TextView
+			android:id="@+id/earnings"
+			android:text="NPR. 25 /- "
+            android:layout_alignParentRight="true"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginLeft="4dp"
+		/>
+
+		<View
+			android:layout_height="1dp"
+			android:layout_width="match_parent"
+			android:background="#e2e2e2"
+			android:layout_alignParentBottom="true"
+		/>
+
+		</RelativeLayout>
+    
+     <View
+        android:layout_height="5dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+
+	
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+      android:orientation ="vertical">
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"  
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:background="@color/colorAccent"
+    >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ride History"
+            android:textSize="20sp" 
+            android:textColor="@color/uberWhite"
+            android:textStyle="bold"
+
+        />
+       
+        </LinearLayout>
+
+     <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:tint="@color/uberWhite"
+            android:layout_marginRight="20dp"
+            android:layout_height="30dp"
+             android:layout_alignParentRight="true"
+            android:src="@drawable/refresh" />
+	 <android.support.v7.widget.RecyclerView
+		android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+		android:layout_width="match_parent"
+		android:scrollbars="vertical"
+		android:background="#e2e2e2"
+		android:id="@+id/myRecyclerView"
+	/>
+	
+</RelativeLayout>

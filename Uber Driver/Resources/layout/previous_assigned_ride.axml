@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:textStyle="bold"
+        android:text="Previous ride details."
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:tint="@color/uberGreen"
+            android:src="@drawable/ic_location"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.8">
+            <TextView
+                android:id="@+id/newridePickupText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="From : CMS Bus Stop Expressway 1, Lagos"
+                android:layout_centerVertical="true"
+                android:maxLines="2" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+
+
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:tint="@color/uberRed"
+            android:src="@drawable/ic_location"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.8">
+            <TextView
+                android:id="@+id/newrideDestinationText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="To : Peninsula Resort Victoria Island Lekki, Lagos"
+                android:layout_centerVertical="true"
+                android:maxLines="2" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:src="@drawable/status"
+            android:padding="12dp" />
+       
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.8">
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Status : ACCEPTED"
+                android:layout_centerVertical="true"
+                android:maxLines="2" />
+        </RelativeLayout>
+         <ImageView
+            android:id="@+id/callBtn"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_marginRight="25dp"
+            android:tint="@color/colorAccent"
+            android:src="@drawable/ic_call_black_48dp"
+            android:padding="7dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:foregroundGravity="right"
+            android:src="@drawable/clock"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:id="@+id/timeDuration"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:text="Estimated 12.3 hrs"
+                android:textStyle="bold"
+                 />
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:foregroundGravity="right"
+            android:src="@drawable/distance"
+            android:padding="12dp" />
+        <RelativeLayout
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.3">
+            <TextView
+                android:id="@+id/totalDistance"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:text="43.3 km"
+                android:textStyle="bold"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/uberAsh" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/reasonText">
+
+            <EditText
+                android:layout_height="match_parent"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:maxHeight="200dp"
+                android:hint="Please specify reason to cancel ride."
+                android:inputType="textMultiLine"
+		/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/errorTextMessage"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="Please specify reason to cancel."
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:layout_centerVertical="true"
+            android:maxLines="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:clickable="true"
+            android:id="@+id/cancelButton"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.5">
+            <TextView
+                android:layout_height="match_parent"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:text="Cancelled"
+                android:textStyle="bold"
+                android:layout_centerInParent="true" />
+            <View
+                android:layout_height="match_parent"
+                android:layout_width="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/uberAsh" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/completeButton"
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.5">
+            <TextView
+                android:background="@android:color/holo_green_dark"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:text="Completed"
+                android:textStyle="bold"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
