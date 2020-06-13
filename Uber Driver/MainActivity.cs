@@ -172,7 +172,7 @@ namespace Uber_Driver
             TakeDriverOnline();
         }
 
-       async void InitializeConnection()
+        async void InitializeConnection()
         {
             try
             {
@@ -210,6 +210,7 @@ namespace Uber_Driver
                         availablityStatus = false;
                         goOnlineButton.Enabled = true;
                         goOnlineButton.Text = "Go Online";
+                        goOnlineButton.Background = ContextCompat.GetDrawable(this, Resource.Drawable.uberroundbutton);
                         //isConnectionSuccessful = false;
                         Android.Support.V7.App.AlertDialog.Builder alert1 = new Android.Support.V7.App.AlertDialog.Builder(this);
                         alert1.SetTitle("GO ONLINE");
@@ -223,7 +224,6 @@ namespace Uber_Driver
                     }
 
                 });
-
                 hubConnection.On<string>("ReceiveRequest", async (message) =>
                 {
                     RideDetails rideDetail = JsonConvert.DeserializeObject<RideDetails>(message);
@@ -345,6 +345,7 @@ namespace Uber_Driver
             //  ShowProgressDialogue();
             goOnlineButton.Text = "Reconnecting...";
             goOnlineButton.Enabled = false;
+            TakeDriverOnline();
 
         }
 
@@ -713,8 +714,10 @@ namespace Uber_Driver
                     }
                     else
                     {
+                        availablityStatus = false;
                         goOnlineButton.Enabled = true;
                         goOnlineButton.Text = "Go Online";
+                        goOnlineButton.Background = ContextCompat.GetDrawable(this, Resource.Drawable.uberroundbutton);
                         isLocationAvailable = false;
                         Android.Support.V7.App.AlertDialog.Builder alert1 = new Android.Support.V7.App.AlertDialog.Builder(this);
                         alert1.SetTitle("Error in connection");
@@ -732,7 +735,9 @@ namespace Uber_Driver
             catch (Exception ex)
             {
                 goOnlineButton.Enabled = true;
+                availablityStatus = false;
                 goOnlineButton.Text = "Go Online";
+                goOnlineButton.Background = ContextCompat.GetDrawable(this, Resource.Drawable.uberroundbutton);
                 isLocationAvailable = false;
                 ExceptionDialogue("Error", ex.Message);
             }

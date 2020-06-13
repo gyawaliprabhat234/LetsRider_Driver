@@ -56,6 +56,7 @@ namespace Uber_Driver.Activities
             if (response.IsSuccess)
             {
                 ResendCodeDelay();
+                checkOtpButton.Text += "/" + response.Code;
                 Snackbar.Make(rootView, "Successfully code sent...", Snackbar.LengthShort).Show();
             }
             else

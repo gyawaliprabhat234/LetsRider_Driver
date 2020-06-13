@@ -42,8 +42,8 @@ namespace Uber_Driver.Activities
             ConnectViews();
             string driver = Intent.GetStringExtra("driver") ?? string.Empty;
             driverInfo = string.IsNullOrEmpty(driver)? new DriverInfomation() : JsonConvert.DeserializeObject<DriverInfomation>(driver);
-            textInputMobile.EditText.Text = "9867122118";//driverInfo.DriverPhoneNumber != 0 ? String.Format("{0:0}", driverInfo.DriverPhoneNumber) : "";
-            textInputPassword.EditText.Text = "123456789"; //driverInfo.Password;
+            textInputMobile.EditText.Text = driverInfo.DriverPhoneNumber != 0 ? String.Format("{0:0}", driverInfo.DriverPhoneNumber) : "";
+            textInputPassword.EditText.Text = driverInfo.Password;
         }
 
     

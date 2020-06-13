@@ -101,9 +101,12 @@
                     android:layout_height="45dp"
                     android:layout_width="300dp"
                     android:text="Finish"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/uberWhite"
                     android:background="@drawable/uberroundbutton"
                     android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
+                  
 			/>
 
 

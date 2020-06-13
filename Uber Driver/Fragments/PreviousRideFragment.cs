@@ -63,7 +63,7 @@ namespace LetsRide.Fragments
             totalDistance.Text = Math.Round(Convert.ToDouble(rides.RidesInfo.LocationInfo.TotalDistance) / 1000).ToString() + " km";
             pickupAddressText.Text = "From : " + rides.RidesInfo.LocationInfo.PickupLocationName;
             destinationAddressText.Text ="To : " + rides.RidesInfo.LocationInfo.PickupDestinationName;
-            statusText.Text = string.IsNullOrEmpty(rides.RidesInfo.RideStatus) ? "None": rides.RidesInfo.RideStatus +"-" + rides.RideId.ToString();
+            statusText.Text = string.IsNullOrEmpty(rides.RidesInfo.RideStatus) ? "None": rides.RidesInfo.RideStatus;
             completeButton.Click += CompleteButton_Click;
             cancelButton.Click += CancelButton_Click;
             callBtn.Click += CallBtn_Click;

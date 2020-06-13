@@ -101,7 +101,8 @@
 
         <RelativeLayout
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+                 android:paddingTop="15dp">
 
             <Button
             android:id="@+id/registerButton"
@@ -110,28 +111,38 @@
             android:text="Register"
                 android:background="@drawable/uberroundbutton"
             android:textColor="@color/uberWhite"
-            android:layout_centerVertical="true"
+          
                 android:layout_centerHorizontal="true"
             />
 
             
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/loginButton"
-                android:layout_marginTop="8dp"
-                android:text="Already Register? Click Here to Login"
-            android:textColor="@color/uberPrimaryColor"
-             
-            android:layout_alignParentBottom="true"
-            android:textSize ="15sp"
-            android:gravity="center"/>
+           
 
         </RelativeLayout>
         
         
 
     </LinearLayout>
+          <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            
+        >
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="4dp"
+            android:background="@color/material_grey_300"/>
+        <TextView
+                android:id="@+id/clickToLogin"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/loginButton"
+                android:layout_marginTop="8dp"
+                android:text="Already Register? Click Here to Login"
+            android:textColor="@color/uberPrimaryColor"
+            android:textSize ="18sp"
+            android:gravity="center"/>
+        </RelativeLayout>
 		</LinearLayout>
 
 
