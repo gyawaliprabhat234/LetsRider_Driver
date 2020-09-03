@@ -113,6 +113,7 @@ namespace Uber_Driver.Activities
         {
             
             var activity = new Intent(this, typeof(MainActivity));
+           // activity.PutExtra("IsActive", false);
             this.Finish();
             StartActivity(activity);
         }

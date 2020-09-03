@@ -28,12 +28,15 @@ using LetsRide.DataModels;
 using Uber_Driver.WebServices;
 using LetsRide.Fragments;
 using LetsRide.DataModels.Rides;
+using LetsRide.Services;
+using LetsRide.DataModels.Data;
 
 namespace Uber_Driver
 {
     [Activity(Label = "@string/app_name", Theme = "@style/UberTheme", MainLauncher = false)]
     public class MainActivity : AppCompatActivity
     {
+        public static Context context;
         HubConnection hubConnection;
         //Buttons
         Button goOnlineButton;
@@ -44,7 +47,7 @@ namespace Uber_Driver
 
         //Fragments
         PreviousRideFragment previousRideFragment;
-        HomeFragment homeFragment = new HomeFragment();
+        HomeFragment homeFragment;
         RatingsFragment ratingsFragment = new RatingsFragment();
         EarningsFragment earningsFragment = new EarningsFragment();
         AccountFragment accountFragment = new AccountFragment();
@@ -87,9 +90,14 @@ namespace Uber_Driver
         Rides rides;
         //MediaPlayer
         MediaPlayer player;
-      
+
         //Helpers
         MapFunctionHelper mapHelper;
+
+        //Intends
+        Intent startServiceIntent;
+        Intent stopServiceIntent;
+        string goOnline;
 
         Android.Support.V7.App.AlertDialog.Builder alert;
         Android.Support.V7.App.AlertDialog alertDialog;
@@ -99,13 +107,26 @@ namespace Uber_Driver
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-            //   ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
-           // ShowProgressDialogue();
+            homeFragment = new HomeFragment(this);
+            startServiceIntent = new Intent(this, typeof(DriverOnlineService));
+            startServiceIntent.SetAction(Constants.ACTION_START_SERVICE);
+
+            stopServiceIntent = new Intent(this, typeof(DriverOnlineService));
+            stopServiceIntent.SetAction(Constants.ACTION_STOP_SERVICE);
+            goOnline = Intent.GetStringExtra("IsActive") ?? string.Empty;
             ConnectViews();
             CheckSpecialPermission();
             InitializeConnection();
-         //   CloseProgressDialogue();
-           
+            SetUpConnection();
+
+
+        }
+        void SetUpConnection()
+        {
+            earningsFragment.OnProgress += Earnings_OnProgress;
+            earningsFragment.EndProgress += Earnings_EndProgress;
+            accountFragment.EndProgress += EndProgress;
+            accountFragment.OnProgress += OnProgress;
         }
         void ShowProgressDialogue()
         {
@@ -147,8 +168,8 @@ namespace Uber_Driver
             ActiveDrivers activeDrivers = new ActiveDrivers()
             {
                 Action = "C",
-                Reasons = e.Reason ,
-                RideId= rides.RideId  
+                Reasons = e.Reason,
+                RideId = rides.RideId
             };
             await new AvailabilityService().ActiveDriver(activeDrivers);
             CloseProgressDialogue();
@@ -157,7 +178,7 @@ namespace Uber_Driver
 
         private async void PreviousRideFragment_Completed(object sender, EventArgs e)
         {
-            if(previousRideFragment!= null)
+            if (previousRideFragment != null)
             {
                 previousRideFragment.Dismiss();
             }
@@ -172,11 +193,11 @@ namespace Uber_Driver
             TakeDriverOnline();
         }
 
-        async void InitializeConnection()
+        void InitializeConnection()
         {
             try
             {
-                
+
                 hubConnection = new HubConnectionBuilder().WithUrl(LetsRideCredentials.HubUrl,
                     options =>
                     {
@@ -244,13 +265,13 @@ namespace Uber_Driver
                 });
                 hubConnection.On<string>("RequestCancel", async (status) =>
                 {
-                   newRideAssigned = false;
-                   availablityListener.OnRideRequestCancelOrTimeout(status);
+                    newRideAssigned = false;
+                    availablityListener.OnRideRequestCancelOrTimeout(status);
                     if (status == "timeout")
                     {
                         rideRequest.RideStatus = "T";
                         rideRequest.Action = "E";
-                         await tripService.SaveRideRequest(rideRequest);
+                        await tripService.SaveRideRequest(rideRequest);
                     }
                     else if (status == "cancel")
                     {
@@ -276,11 +297,8 @@ namespace Uber_Driver
                         alert1.Show();
                     }
                 });
-                earningsFragment.OnProgress += Earnings_OnProgress;
-                earningsFragment.EndProgress += Earnings_EndProgress;
-                accountFragment.EndProgress += EndProgress;
-                accountFragment.OnProgress += OnProgress;
-                
+
+
             }
             catch (Exception ex)
             {
@@ -611,7 +629,7 @@ namespace Uber_Driver
                 ExceptionDialogue("Error", ex.Message);
             }
         }
-        async void HomeFragment_CurrentLocation(object sender, Helpers.LocationCallbackHelper.OnLocationCaptionEventArgs e)
+        void HomeFragment_CurrentLocation(object sender, Helpers.LocationCallbackHelper.OnLocationCaptionEventArgs e)
         {
             mLastLocation = e.Location;
             mLastLatLng = new LatLng(mLastLocation.Latitude, mLastLocation.Longitude);
@@ -619,7 +637,7 @@ namespace Uber_Driver
 
             if (availablityListener != null && isLocationAvailable)
             {
-                await availablityListener.UpdateLocation(mLastLocation);
+                //await availablityListener.UpdateLocation(mLastLocation);
             }
             else if (!isLocationAvailable)
             {
@@ -932,6 +950,7 @@ namespace Uber_Driver
                 player.Stop();
                 player = null;
             }
+
             Toast.MakeText(this, "New trip was cancelled", ToastLength.Short).Show();
             // availablityListener.ReActivate();
         }
@@ -1031,7 +1050,7 @@ namespace Uber_Driver
             ViewPagerAdapter adapter = new ViewPagerAdapter(SupportFragmentManager);
             adapter.AddFragment(homeFragment, "Home");
             adapter.AddFragment(earningsFragment, "History");
-           // adapter.AddFragment(ratingsFragment, "Rating");
+            // adapter.AddFragment(ratingsFragment, "Rating");
             adapter.AddFragment(accountFragment, "Account");
             viewpager.Adapter = adapter;
         }
@@ -1053,20 +1072,50 @@ namespace Uber_Driver
         protected override void OnPause()
         {
             isBackground = true;
+            DriverOnlineService.Status = "B";
+            if (availablityStatus)
+            {
+                StartService(startServiceIntent);
+            }
             base.OnPause();
         }
 
         protected override async void OnResume()
         {
             isBackground = false;
-
-
-            if (newRideAssigned)
+            try
             {
-                if (!IsConnected)
-                    await ConnectAsync();
-                CreateNewRequestDialogue();
-                newRideAssigned = false;
+                if (DriverOnlineService.Status == "B")
+                {
+                    StopService(stopServiceIntent);
+                    if (hubConnection.State != HubConnectionState.Connected)
+                    {
+                        InitializeConnection();
+                        goOnlineButton.Enabled = false;
+                        goOnlineButton.Text = "Connecting...";
+                        homeFragment.GoOnline();
+                        TakeDriverOnline();
+
+                    }
+                }
+                else
+                {
+                  //  TakeDriverOffline();
+                }
+                DriverOnlineService.Status = "F";
+
+                if (newRideAssigned)
+                {
+                    if (!IsConnected)
+                        await ConnectAsync();
+                    CreateNewRequestDialogue();
+                    newRideAssigned = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
             base.OnResume();
         }

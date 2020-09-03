@@ -14,6 +14,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using LetsRide;
+using LetsRide.Broadcast;
 using Uber_Driver.Helpers;
 using static Uber_Driver.Helpers.LocationCallbackHelper;
 
@@ -22,8 +23,8 @@ namespace Uber_Driver.Fragments
     public class HomeFragment : Android.Support.V4.App.Fragment, IOnMapReadyCallback
     {
         public EventHandler<OnLocationCaptionEventArgs> CurrentLocation;
-       public GoogleMap mainMap;
-
+        public GoogleMap mainMap;
+        Context context; 
         //Marker
         ImageView centerMarker;
 
@@ -61,8 +62,10 @@ namespace Uber_Driver.Fragments
         public event EventHandler TripActionArrived;
         public event EventHandler TripActionEndTrip;
 
-
-
+        public HomeFragment(Context con)
+        {
+            context = con;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -72,20 +75,20 @@ namespace Uber_Driver.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
-           View view = inflater.Inflate(Resource.Layout.home, container, false);
-           SupportMapFragment mapFragment = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.map);
-           centerMarker = (ImageView)view.FindViewById(Resource.Id.centerMarker);
-           mapFragment.GetMapAsync(this);
-           cancelTripButton = (ImageButton)view.FindViewById(Resource.Id.cancelTripButton);
-           callRiderButton = (ImageButton)view.FindViewById(Resource.Id.callRiderButton);
-           navigateButton = (ImageButton)view.FindViewById(Resource.Id.navigateButton);
-           tripButton = (Button)view.FindViewById(Resource.Id.tripButton);
-           riderNameText = (TextView)view.FindViewById(Resource.Id.riderNameText);
-           rideInfoLayout = (LinearLayout)view.FindViewById(Resource.Id.rideInfoLayout);
-           tripButton.Click += TripButton_Click;
-           callRiderButton.Click += CallRiderButton_Click;
-           navigateButton.Click += NavigateButton_Click;
-           return view;
+            View view = inflater.Inflate(Resource.Layout.home, container, false);
+            SupportMapFragment mapFragment = (SupportMapFragment)ChildFragmentManager.FindFragmentById(Resource.Id.map);
+            centerMarker = (ImageView)view.FindViewById(Resource.Id.centerMarker);
+            mapFragment.GetMapAsync(this);
+            cancelTripButton = (ImageButton)view.FindViewById(Resource.Id.cancelTripButton);
+            callRiderButton = (ImageButton)view.FindViewById(Resource.Id.callRiderButton);
+            navigateButton = (ImageButton)view.FindViewById(Resource.Id.navigateButton);
+            tripButton = (Button)view.FindViewById(Resource.Id.tripButton);
+            riderNameText = (TextView)view.FindViewById(Resource.Id.riderNameText);
+            rideInfoLayout = (LinearLayout)view.FindViewById(Resource.Id.rideInfoLayout);
+            tripButton.Click += TripButton_Click;
+            callRiderButton.Click += CallRiderButton_Click;
+            navigateButton.Click += NavigateButton_Click;
+            return view;
         }
 
         void NavigateButton_Click(object sender, EventArgs e)
@@ -101,7 +104,7 @@ namespace Uber_Driver.Fragments
 
         void TripButton_Click(object sender, EventArgs e)
         {
-            if(!driverArrived && tripCreated)
+            if (!driverArrived && tripCreated)
             {
                 driverArrived = true;
                 TripActionArrived?.Invoke(this, new EventArgs());
@@ -109,7 +112,7 @@ namespace Uber_Driver.Fragments
                 return;
             }
 
-            if(!tripStarted && driverArrived)
+            if (!tripStarted && driverArrived)
             {
                 tripStarted = true;
                 TripActionStartTrip.Invoke(this, new EventArgs());
@@ -159,7 +162,16 @@ namespace Uber_Driver.Fragments
         void StartLocationUpdates()
         {
             locationProviderClient.RequestLocationUpdates(mLocationRequest, mLocationCallback, null);
+          //  locationProviderClient.RequestLocationUpdates(mLocationRequest, GetPendingIntent());
         }
+        private PendingIntent GetPendingIntent()
+        {
+            Intent intent = new Intent(context, typeof(LocationService));
+            intent.SetAction(LocationService.ACTION_PROCESS_LOCATION);
+            return PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+
+        }
+
 
         void StopLocationUpdates()
         {

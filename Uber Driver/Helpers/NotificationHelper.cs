@@ -26,7 +26,6 @@ namespace Uber_Driver.Helpers
                 .SetContentType(AudioContentType.Sonification)
                 .SetUsage(AudioUsageKind.Notification).Build();
             channel.EnableLights(true);
-            channel.EnableLights(true);
             channel.SetSound(path, audioattribute);
             channel.LockscreenVisibility = NotificationVisibility.Public;
 
